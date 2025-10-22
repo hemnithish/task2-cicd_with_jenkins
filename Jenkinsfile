@@ -20,7 +20,12 @@ pipeline {
 
         stage('Test') {
             steps {
-                bat 'docker run --rm %DOCKER_IMAGE node -e "console.log(\\"Test Passed\\")"'
+                withEnv(['DOCKER_IMAGE=hemis15/simpleapp:latest']) {
+                    echo "Testing Docker Image..."
+                    bat """
+                    docker run --rm %DOCKER_IMAGE% node -e "console.log(\\"Test Passed\\")"
+                    """
+                }
             }
         }
 
